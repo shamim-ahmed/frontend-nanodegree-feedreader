@@ -101,8 +101,9 @@ $(function() {
       });
     });
 
-    it('are present', function() {
+    it('are present', function(done) {
       expect($('.feed .entry').size()).toBeGreaterThan(0);
+      done();
     });
   });
 
@@ -134,12 +135,13 @@ $(function() {
       loadFeed(0, firstValueReader);
     });
 
-    it('changes content', function() {
+    it('changes content', function(done) {
       expect(value1).not.toBeNull();
       expect(value1.length).toBeGreaterThan(0);
       expect(value2).not.toBeNull();
       expect(value2.length).toBeGreaterThan(0);
       expect(value1).not.toEqual(value2);
+      done();
     });
   });
 }());
