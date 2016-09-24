@@ -102,6 +102,7 @@ $(function() {
       cb();
     });
   });
+
   /* Write a new test suite named "New Feed Selection" */
   describe('New Feed Selection', function() {
     var value1 = null;
