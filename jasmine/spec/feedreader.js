@@ -9,12 +9,13 @@
 * to ensure they don't run until the DOM is ready.
 */
 $(function() {
+  // change the value of the timeout interval for asynchronous tests
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
   /* This is our first test suite - a test suite just contains
   * a related set of tests. This suite is all about the RSS
   * feeds definitions, the allFeeds variable in our application.
   */
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-
   describe('RSS Feeds', function() {
     /* This is our first test - it tests to make sure that the
     * allFeeds variable has been defined and that it is not
@@ -36,6 +37,7 @@ $(function() {
     it('have valid URL', function() {
       var i;
       var feedUrl;
+
       for (i = 0; i < allFeeds.length; i++) {
         feedUrl = allFeeds[i].url;
         expect(feedUrl).toBeDefined();
@@ -97,25 +99,28 @@ $(function() {
       loadFeed(0, cb);
     });
 
-    it('are present', function(cb) {
-      expect($('div.feed > a.entry-link').size()).toBeGreaterThan(0);
-      cb();
+    it('are present', function() {
+      expect($('.feed .entry').size()).toBeGreaterThan(0);
     });
   });
 
   /* Write a new test suite named "New Feed Selection" */
   describe('New Feed Selection', function() {
+    /* Write a test that ensures when a new feed is loaded
+    * by the loadFeed function that the content actually changes.
+    * Remember, loadFeed() is asynchronous.
+    */
     var value1 = null;
     var value2 = null;
     var callbackFunction = null;
 
     var firstValueReader = function() {
-      value1 = $("div.feed > a.entry-link:first").text().trim();
+      value1 = $(".feed .entry:first").text().trim();
       loadFeed(1, secondValueReader);
     };
 
     var secondValueReader = function() {
-      value2 = $("div.feed > a.entry-link:first").text().trim();
+      value2 = $(".feed .entry:first").text().trim();
 
       if (callbackFunction) {
         callbackFunction();
@@ -127,10 +132,6 @@ $(function() {
       loadFeed(0, firstValueReader);
     });
 
-    /* Write a test that ensures when a new feed is loaded
-    * by the loadFeed function that the content actually changes.
-    * Remember, loadFeed() is asynchronous.
-    */
     it('changes content', function() {
       expect(value1).not.toBeNull();
       expect(value1.length).toBeGreaterThan(0);
