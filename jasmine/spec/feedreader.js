@@ -95,8 +95,10 @@ $(function() {
     * Remember, loadFeed() is asynchronous so this test will require
     * the use of Jasmine's beforeEach and asynchronous done() function.
     */
-    beforeEach(function(cb) {
-      loadFeed(0, cb);
+    beforeEach(function(done) {
+      loadFeed(0, function() {
+        done();
+      });
     });
 
     it('are present', function() {
@@ -127,8 +129,8 @@ $(function() {
       }
     };
 
-    beforeEach(function(cb) {
-      callbackFunction = cb;
+    beforeEach(function(done) {
+      callbackFunction = done;
       loadFeed(0, firstValueReader);
     });
 
