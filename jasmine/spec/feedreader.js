@@ -13,6 +13,8 @@ $(function() {
   * a related set of tests. This suite is all about the RSS
   * feeds definitions, the allFeeds variable in our application.
   */
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
   describe('RSS Feeds', function() {
     /* This is our first test - it tests to make sure that the
     * allFeeds variable has been defined and that it is not
@@ -91,18 +93,49 @@ $(function() {
     * Remember, loadFeed() is asynchronous so this test will require
     * the use of Jasmine's beforeEach and asynchronous done() function.
     */
-    it('are present', function() {
+    beforeEach(function(cb) {
+      loadFeed(0, cb);
+    });
 
+    it('are present', function(cb) {
+      expect($('div.feed > a.entry-link').size()).toBeGreaterThan(0);
+      cb();
     });
   });
   /* Write a new test suite named "New Feed Selection" */
   describe('New Feed Selection', function() {
+    var value1 = null;
+    var value2 = null;
+    var callbackFunction = null;
+
+    var firstValueReader = function() {
+      value1 = $("div.feed > a.entry-link:first").text().trim();
+      loadFeed(1, secondValueReader);
+    };
+
+    var secondValueReader = function() {
+      value2 = $("div.feed > a.entry-link:first").text().trim();
+
+      if (callbackFunction) {
+        callbackFunction();
+      }
+    };
+
+    beforeEach(function(cb) {
+      callbackFunction = cb;
+      loadFeed(0, firstValueReader);
+    });
+
     /* Write a test that ensures when a new feed is loaded
     * by the loadFeed function that the content actually changes.
     * Remember, loadFeed() is asynchronous.
     */
     it('changes content', function() {
-      
+      expect(value1).not.toBeNull();
+      expect(value1.length).toBeGreaterThan(0);
+      expect(value2).not.toBeNull();
+      expect(value2.length).toBeGreaterThan(0);
+      expect(value1).not.toEqual(value2);
     });
   });
 }());
