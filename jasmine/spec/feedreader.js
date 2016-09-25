@@ -14,9 +14,8 @@ $(function() {
   * feeds definitions, the allFeeds variable in our application.
   */
   describe('RSS Feeds', function() {
-    /* This test ensures that the
-    * allFeeds variable has been defined and that it is not
-    * empty.
+    /* This test ensures that the allFeeds variable has been
+    * defined and it is not empty.
     */
     it('are defined', function() {
       expect(allFeeds).toBeDefined();
@@ -24,9 +23,8 @@ $(function() {
     });
 
 
-    /* This test loops through each feed
-    * in the allFeeds object and ensures it has a URL defined
-    * and that the URL is not empty.
+    /* This test loops through each feed in the allFeeds object and
+    * ensures that it has a URL defined and the URL is not empty.
     */
     it('have valid URL', function() {
       var i;
@@ -40,9 +38,8 @@ $(function() {
     });
 
 
-    /* This test loops through each feed
-    * in the allFeeds object and ensures it has a name defined
-    * and that the name is not empty.
+    /* This test loops through each feed in the allFeeds object and
+    * ensures that it has a name defined and the name is not empty.
     */
     it("have valid name", function() {
       var i = 0;
@@ -59,19 +56,19 @@ $(function() {
 
   /* A new test suite named "The menu" */
   describe('The menu', function() {
-    /* This test verifies that the menu element is
-    * hidden by default. The menu element is hidden
-    * when the class attribute of body element contains 'menu-hidden'.
-    * Removing this class from the body makes the menu visible.
+    /* This test verifies that the menu element is hidden by default.
+    * The menu element is hidden when the class attribute of body
+    * element contains 'menu-hidden'. Removing this class from the
+    * body element makes the menu visible.
     */
     it('is hidden', function() {
       expect($("body.menu-hidden").size()).toBe(1);
     });
 
-    /* This test ensures that the menu changes
-    * visibility when the menu icon is clicked. We simply test for the presence
-    * of 'menu-hidden' in the class attribtue of body to
-    * determine whether the menu is hidden or not.
+    /* This test ensures that the menu changes visibility when the menu
+    * icon is clicked. We simply test for the presence of 'menu-hidden'
+    * in the class attribute of body element to determine whether the
+    * menu is hidden or not.
     */
     it('changes visibility', function() {
       $("body > div.header > a.menu-icon-link").click();
