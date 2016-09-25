@@ -87,14 +87,11 @@ $(function() {
     * the use of Jasmine's beforeEach and asynchronous done() function.
     */
     beforeEach(function(done) {
-      loadFeed(0, function() {
-        done();
-      });
+      loadFeed(0, done);
     });
 
-    it('are present', function(done) {
+    it('are present', function() {
       expect($('.feed .entry').size()).toBeGreaterThan(0);
-      done();
     });
   });
 
@@ -110,10 +107,7 @@ $(function() {
 
     var readFirstValue = function() {
       valueArray.push($(".feed .entry").text().trim());
-
-      loadFeed(1, function() {
-        readSecondValue();
-      });
+      loadFeed(1, readSecondValue);
     };
 
     var readSecondValue = function() {
@@ -126,13 +120,10 @@ $(function() {
 
     beforeEach(function(done) {
       callbackFunction = done;
-
-      loadFeed(0, function() {
-        readFirstValue();
-      });
+      loadFeed(0, readFirstValue);
     });
 
-    it('changes content', function(done) {
+    it('changes content', function() {
       // Compare the entry values from the two sources.
       var firstValue = valueArray[0];
       var secondValue = valueArray[1];
@@ -142,7 +133,6 @@ $(function() {
       expect(secondValue).not.toBeNull();
       expect(secondValue.length).toBeGreaterThan(0);
       expect(firstValue).not.toEqual(secondValue);
-      done();
     });
   });
 }());
