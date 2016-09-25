@@ -62,7 +62,7 @@ $(function() {
     * body element makes the menu visible.
     */
     it('is hidden', function() {
-      expect($("body.menu-hidden").size()).toBe(1);
+      expect($("body").hasClass("menu-hidden")).toBe(true);
     });
 
     /* This test ensures that the menu changes visibility when the menu
@@ -72,9 +72,9 @@ $(function() {
     */
     it('changes visibility', function() {
       $("body > div.header > a.menu-icon-link").click();
-      expect($("body.menu-hidden").size()).toBe(0);
+      expect($("body").hasClass("menu-hidden")).toBe(false);
       $("body > div.header > a.menu-icon-link").click();
-      expect($("body.menu-hidden").size()).toBe(1);
+      expect($("body").hasClass("menu-hidden")).toBe(true);
     });
   });
 
@@ -106,18 +106,29 @@ $(function() {
     * the use of Jasmine's beforeEach and asynchronous done() function.
     */
     var valueArray = [];
+    var callbackFunction = null;
 
-    beforeEach(function(done) {
-      // Read the value of all entries after loading from
-      // first source has been completed.
+    var readFirstValue = function() {
       valueArray.push($(".feed .entry").text().trim());
 
-      // Reload the feeds from the second source.
-      // Read the value of all entries after loading from
-      // second source has been completed.
       loadFeed(1, function() {
-        valueArray.push($(".feed .entry").text().trim());
-        done();
+        readSecondValue();
+      });
+    };
+
+    var readSecondValue = function() {
+      valueArray.push($(".feed .entry").text().trim());
+
+      if (callbackFunction) {
+        callbackFunction();
+      }
+    };
+
+    beforeEach(function(done) {
+      callbackFunction = done;
+
+      loadFeed(0, function() {
+        readFirstValue();
       });
     });
 
